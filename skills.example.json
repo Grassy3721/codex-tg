@@ -1,0 +1,18 @@
+{
+  "skills": [
+    {
+      "name": "code-review",
+      "purpose": "Reviewing a diff, a pull request, or a file for defects and cleanups.",
+      "aliases": ["cr"]
+    },
+    {
+      "name": "writing-assistant",
+      "purpose": "Drafting, editing, or restructuring prose the user is writing.",
+      "aliases": ["write"]
+    },
+    {
+      "name": "research",
+      "purpose": "Open-ended investigation that needs sources gathered and compared before answering."
+    }
+  ]
+}

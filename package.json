@@ -1,0 +1,20 @@
+{
+  "name": "codex-tg",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "A small Telegram bridge for the Codex CLI, built on the Codex App Server.",
+  "main": "src/bot.js",
+  "scripts": {
+    "start": "node src/bot.js",
+    "check": "node --check src/bot.js && node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.5.0",
+    "dotenv": "^16.4.5",
+    "telegraf": "^4.16.3"
+  },
+  "license": "MIT"
+}
