@@ -152,6 +152,14 @@ and their assistant replies on its first turn, capped by
 from evolving long-term memory, is consumed only after a successful injection,
 and is cleared by `/new clean`, `/cd`, or `/resume`.
 
+## Daily journal collector
+
+The optional daily collector reviews the previous local 03:00-to-03:00 window
+and extracts grounded, deduplicated journal events. It is disabled by default
+because writing those events requires an MCP server that exposes Memory
+Gateway's `append_journal` tool. Configure that server and set
+`JOURNAL_COLLECTOR_ENABLED=true` to enable it.
+
 ## Autonomous wake-ups
 
 With `PROACTIVE_WAKE_ENABLED=true`, the bridge gives the existing private chat

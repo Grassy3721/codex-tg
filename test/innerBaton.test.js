@@ -1,8 +1,14 @@
 import assert from 'node:assert/strict'
-import test from 'node:test'
+import os from 'node:os'
+import path from 'node:path'
+import { mkdtemp, rm } from 'node:fs/promises'
+import test, { after } from 'node:test'
 
 process.env.TELEGRAM_BOT_TOKEN ||= 'test-token'
 process.env.ALLOWED_USER_IDS ||= '1'
+const databaseDirectory = await mkdtemp(path.join(os.tmpdir(), 'codex-tg-inner-baton-'))
+process.env.DB_PATH = path.join(databaseDirectory, 'sessions.db')
+after(() => rm(databaseDirectory, { recursive: true, force: true }))
 
 const {
   createDynamicToolRouter,

@@ -215,7 +215,7 @@ export const config = {
 
   // A private 03:03 local-time reviewer extracts the just-finished
   // 03:00-to-03:00 day into journal events.
-  journalCollectorEnabled: bool(process.env.JOURNAL_COLLECTOR_ENABLED, true),
+  journalCollectorEnabled: bool(process.env.JOURNAL_COLLECTOR_ENABLED, false),
   journalCollectorTaskName:
     process.env.JOURNAL_COLLECTOR_TASK_NAME || 'daily-journal-event-collector',
   journalCollectorTimezone: timeZone(
@@ -267,9 +267,9 @@ export const config = {
     0,
     Number(process.env.PROACTIVE_WAKE_USER_QUIET_MINUTES || 15)
   ),
-  // Even a highly motivated wake must leave a small recovery interval before
-  // choosing its next flexible window. The emotion state may stretch this,
-  // but never shorten it below this floor.
+  // Every completed wake leaves a small recovery interval before the next
+  // flexible window. Agent-selected windows may stretch this, but never
+  // shorten it below this floor.
   proactiveWakeCooldownMinutes: Math.max(
     2,
     Number(process.env.PROACTIVE_WAKE_COOLDOWN_MINUTES || 30)

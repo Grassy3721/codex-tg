@@ -10,8 +10,8 @@ import {
 
 test('automatic skill starts have a compact visible notice', () => {
   assert.equal(
-    automaticSkillStartedNotice('dark-erotic-fiction'),
-    '🧩 dark-erotic-fiction 已触发'
+    automaticSkillStartedNotice('fiction-writing'),
+    '🧩 fiction-writing 已触发'
   )
   assert.equal(automaticSkillStartedNotice(''), '🧩 Skill episode 已触发')
 })
