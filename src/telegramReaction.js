@@ -1,30 +1,36 @@
-export const TELEGRAM_REACTION_EMOJIS = [
+export const DEFAULT_TELEGRAM_REACTION_EMOJIS = Object.freeze([
   '👀',
-  '👾',
   '🎉',
   '🥰',
-  '🗿',
-  '🌭',
   '❤️‍🔥',
-]
+])
 
-export const telegramReactionTool = {
-  type: 'function',
-  name: 'telegram_react',
-  description:
-    'Optionally add one emoji reaction to the current user message in Telegram. Use this sparingly when a reaction adds natural emotional texture; do not react to every message, do not use it instead of a needed written reply, and avoid it when the tone is serious or ambiguous. The bridge chooses the message target. Call at most once per turn.',
-  inputSchema: {
-    type: 'object',
-    additionalProperties: false,
-    required: ['emoji'],
-    properties: {
-      emoji: {
-        type: 'string',
-        enum: TELEGRAM_REACTION_EMOJIS,
-        description: 'The single standard Telegram emoji reaction to add.',
+export function normalizeTelegramReactionEmojis(value) {
+  const source = Array.isArray(value) ? value : String(value || '').split(',')
+  const emojis = [...new Set(source.map((item) => String(item).trim()).filter(Boolean))]
+  return emojis.length ? emojis.slice(0, 16) : [...DEFAULT_TELEGRAM_REACTION_EMOJIS]
+}
+
+export function createTelegramReactionTool(allowedEmojis = DEFAULT_TELEGRAM_REACTION_EMOJIS) {
+  const emojis = normalizeTelegramReactionEmojis(allowedEmojis)
+  return {
+    type: 'function',
+    name: 'telegram_react',
+    description:
+      'Optionally add one emoji reaction to the current user message in Telegram. Use this sparingly when a reaction adds natural emotional texture; do not react to every message, do not use it instead of a needed written reply, and avoid it when the tone is serious or ambiguous. The bridge chooses the message target. Call at most once per turn.',
+    inputSchema: {
+      type: 'object',
+      additionalProperties: false,
+      required: ['emoji'],
+      properties: {
+        emoji: {
+          type: 'string',
+          enum: emojis,
+          description: 'The single standard Telegram emoji reaction to add.',
+        },
       },
     },
-  },
+  }
 }
 
 function toolResponse(text, success) {
@@ -34,12 +40,19 @@ function toolResponse(text, success) {
   }
 }
 
-export function createTelegramReactionHandler({ telegram, chatId, messageId, logger = console }) {
+export function createTelegramReactionHandler({
+  telegram,
+  chatId,
+  messageId,
+  allowedEmojis = DEFAULT_TELEGRAM_REACTION_EMOJIS,
+  logger = console,
+}) {
+  const emojis = normalizeTelegramReactionEmojis(allowedEmojis)
   let attempted = false
   const state = { attempted: false, succeeded: false }
 
   const handler = async ({ namespace, tool, arguments: args }) => {
-    if (namespace || tool !== telegramReactionTool.name) {
+    if (namespace || tool !== 'telegram_react') {
       return toolResponse('This bridge tool is not available.', false)
     }
     if (attempted) {
@@ -47,7 +60,7 @@ export function createTelegramReactionHandler({ telegram, chatId, messageId, log
     }
 
     const emoji = args?.emoji
-    if (!TELEGRAM_REACTION_EMOJIS.includes(emoji)) {
+    if (!emojis.includes(emoji)) {
       return toolResponse('That Telegram reaction is not allowed by this bridge.', false)
     }
 

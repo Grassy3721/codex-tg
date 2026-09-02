@@ -10,3 +10,7 @@ const { config } = await import('../src/config.js')
 test('external journal integration is opt-in by default', () => {
   assert.equal(config.journalCollectorEnabled, false)
 })
+
+test('Telegram reactions use the conservative public default', () => {
+  assert.deepEqual(config.telegramReactionEmojis, ['👀', '🎉', '🥰', '❤️‍🔥'])
+})

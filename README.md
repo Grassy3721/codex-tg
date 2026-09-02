@@ -22,6 +22,10 @@ Telegram inline keyboards. Decisions are returned over the same App Server
 connection, so the paused turn resumes in place. Buttons are scoped to the
 originating Telegram user/chat and expire after `APPROVAL_TIMEOUT_MS`.
 
+The assistant may also add one reaction to the current message. The conservative
+default set can be replaced with a comma-separated
+`TELEGRAM_REACTION_EMOJIS` value containing reactions supported by your chat.
+
 ## Setup
 
 ```bash

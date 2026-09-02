@@ -82,7 +82,7 @@ import * as render from './render.js'
 import { settleCosmeticRequest } from './cosmeticRequest.js'
 import {
   createTelegramReactionHandler,
-  telegramReactionTool,
+  createTelegramReactionTool,
 } from './telegramReaction.js'
 import {
   createDynamicToolRouter,
@@ -124,6 +124,7 @@ import execBackend from './backends/codexExec.js'
 import appServerBackend from './backends/appServer.js'
 
 const backend = config.backend === 'exec' ? execBackend : appServerBackend
+const telegramReactionTool = createTelegramReactionTool(config.telegramReactionEmojis)
 
 if (config.backend === 'app-server') {
   appServerBackend.onSkillsChanged(() => {
@@ -1698,6 +1699,7 @@ async function runCodexTurn(
             telegram: ctx.telegram,
             chatId: ctx.chat.id,
             messageId: reactionMessageId,
+            allowedEmojis: config.telegramReactionEmojis,
           })
         : null
     const innerBatonHandler =

@@ -2,6 +2,7 @@ import 'dotenv/config'
 import path from 'node:path'
 import os from 'node:os'
 import { fileURLToPath } from 'node:url'
+import { normalizeTelegramReactionEmojis } from './telegramReaction.js'
 
 export const REPOSITORY_ROOT = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -111,6 +112,11 @@ export const config = {
 
   // User-facing timestamps injected into every Telegram turn.
   userTimezone: timeZone(process.env.USER_TIMEZONE),
+
+  // Comma-separated standard Telegram reactions exposed to the assistant.
+  telegramReactionEmojis: normalizeTelegramReactionEmojis(
+    process.env.TELEGRAM_REACTION_EMOJIS
+  ),
 
   dbPath: resolveRepositoryPath(process.env.DB_PATH),
 
