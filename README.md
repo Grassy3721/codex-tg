@@ -34,6 +34,10 @@ workspace and streams results back through the chat.
 - **Autonomous wake-ups** — the bot can initiate contact on its own rhythm,
   with flexible scheduling windows and exact appointments. Scheduling respects
   waking hours and yields to real conversation.
+- **Rich formatting** — assistant responses are rendered with Telegram
+  MarkdownV2 (bold, italic, code blocks, links).
+- **Reactions** — the assistant can react to messages with emoji. The allowed
+  set is configurable via `TELEGRAM_REACTION_EMOJIS`.
 - **Dual backend** — `app-server` (default) supports interactive approvals and
   warm MCP connections; `exec` is a compatibility fallback.
 
